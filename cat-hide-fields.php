@@ -2,8 +2,8 @@
 Plugin Name: Show Only Per Category 
 Plugin URI: http://coderspress.com/forum/hide-custom-fields/
 Description: Shows only selected fields on Add Listing template, based on Category. PremiumPress 6.6.5 – 8.1
-Version: 2015.0511
-Updated: 11th May 2015 
+Version: 2015.0703
+Updated: 3rd July 2015 
 Author: sMarty
 Author URI: http://coderspress.com
 WP_Requires: 3.8.1
@@ -229,25 +229,31 @@ add_action( 'wp_footer', 'hide_fields');
 function hide_fields(){
 if ( is_page() ) {
 if ( is_user_logged_in() ) {
- if (stripos($_SERVER['REQUEST_URI'],'eid=') !== false) {$step = '3';}else {$step = '4';}
+ if (stripos($_SERVER['REQUEST_URI'],'eid=') !== false) {$step = '3';} else {$step = '4';}
 } else {
 	$step = '5';
 }
 ?>
 <script> 
 jQuery(document).ready(function () {
+
+var estep = '<?php echo $step;?>';
+ if (!jQuery('.uploadiconbox').length) {
+var estep = estep-1;
+ }
+
  var category = jQuery(".tcbox input:checked").val();
   if (category === undefined) {
-            jQuery('.astep<?php echo$step?>').removeAttr('href');
+            jQuery('.astep'+estep).removeAttr('href');
         } else {
-            jQuery('.astep<?php echo$step?>').attr('href', '#step<?php echo$step?>');
+            jQuery('.astep'+estep).attr('href', '#step'+estep);
         }
-    jQuery('.astep<?php echo$step?>').click(function () {
+    jQuery('.astep'+estep).click(function () {
        var category = jQuery(".tcbox input:checked").val();
        if(category === undefined){
-        jQuery('.astep<?php echo$step?>').removeAttr('href');
-         } else { jQuery('.astep<?php echo$step?>').attr('href') } 
-        if (jQuery('.astep<?php echo$step?>').attr('href') === undefined) {
+        jQuery('.astep'+estep).removeAttr('href');
+         } else { jQuery('.astep'+estep).attr('href') } 
+        if (jQuery('.astep'+estep).attr('href') === undefined) {
             alert('Please Complete Category Selection');
         } else { <?php global $wpdb;
             $table_name = $wpdb->prefix."show_field_only";
@@ -271,9 +277,9 @@ jQuery(document).ready(function () {
     jQuery('.tcbox').click(function () {
      var category = jQuery(".tcbox input:checked").val();
         if (category === undefined) {
-            jQuery('.astep<?php echo$step?>').removeAttr('href');
+            jQuery('.astep'+estep).removeAttr('href');
         } else {
-            jQuery('.astep<?php echo$step?>').attr('href', '#step<?php echo$step?>');
+            jQuery('.astep'+estep).attr('href', '#step'+estep);
         }
     });
 });
