@@ -1,13 +1,13 @@
 <?php /* 
 Plugin Name: Show Only Per Category 
 Plugin URI: http://coderspress.com/forum/hide-custom-fields/
-Description: Shows only selected fields on Add Listing template, based on Category. PremiumPress 6.6.5 | 8.3
-Version: 2015.0703
-Updated: 3rd July 2015 
+Description: Shows only selected fields on Add Listing template, based on Category. PremiumPress 6.6.5 | 8.4
+Version: 2015.0729
+Updated: 29 July 2015 
 Author: sMarty
 Author URI: http://coderspress.com
 WP_Requires: 3.8.1
-WP_Compatible: 4.2.2
+WP_Compatible: 4.2.3
 License: http://creativecommons.org/licenses/GPL/2.0
 */ 
 add_action( 'init', 'chf_plugin_updater' );
@@ -27,8 +27,12 @@ function chf_plugin_updater() {
 		new WP_CHF_UPDATER( $config );
 	}
 }
-add_action('admin_menu', 'show_only_create_menu'); function show_only_create_menu() { add_menu_page('SHOW Field Settings', 'Fields IF-Category', 'administrator', __FILE__, 'show_only_setup_page',plugins_url('/images/list.gif', __FILE__)); } register_activation_hook( __FILE__, 'dbtable_install' ); function dbtable_install() { global $wpdb; $table_name = $wpdb->prefix . "show_field_only"; $charset_collate = ''; if ( ! empty( $wpdb->charset ) ) { $charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}"; } if ( ! empty( $wpdb->collate ) ) { $charset_collate .= " COLLATE {$wpdb->collate}"; } $sql = "CREATE TABLE $table_name ( id mediumint(9) NOT NULL AUTO_INCREMENT, field_label text NOT NULL, category text NOT NULL, UNIQUE KEY id (id) ) $charset_collate;"; require_once( ABSPATH . 'wp-admin/includes/upgrade.php' ); dbDelta( $sql ); }
-
+add_action('admin_menu', 'show_only_create_menu'); function show_only_create_menu() { add_menu_page('SHOW Field Settings', 'Fields IF-Category', 'administrator', __FILE__, 'show_only_setup_page',plugins_url('/images/list.gif', __FILE__)); } register_activation_hook( __FILE__, 'dbtable_install' ); function dbtable_install() { global $wpdb; $table_name = $wpdb->prefix . "show_field_only"; $charset_collate = ''; if ( ! empty( $wpdb->charset ) ) { $charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}"; } if ( ! empty( $wpdb->collate ) ) { $charset_collate .= " COLLATE {$wpdb->collate}"; } $sql = "CREATE TABLE $table_name ( id mediumint(9) NOT NULL AUTO_INCREMENT, field_label text NOT NULL, category text NOT NULL, UNIQUE KEY id (id) ) $charset_collate;"; require_once( ABSPATH . 'wp-admin/includes/upgrade.php' ); dbDelta( $sql ); } register_deactivation_hook( __FILE__, 'dbtable_drop' ); 
+function dbtable_drop() { 
+global $wpdb; 
+$table_name = $wpdb->prefix."show_field_only"; 
+//$wpdb->query("DROP TABLE IF EXISTS $table_name");
+ } 
 function show_only_setup_page() { ?>
 
 <script type="text/javascript" src="<?php echo plugins_url('/cat-hide-fields/js/jquery-ui.min.js');?>"></script>
