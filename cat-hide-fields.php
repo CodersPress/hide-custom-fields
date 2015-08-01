@@ -238,7 +238,7 @@ if ( is_user_logged_in() ) {
 jQuery(document).ready(function () {
 
 var estep = '<?php echo $step;?>';
- if (!jQuery('.fileinput-button').length) {
+ if (!jQuery('.uploadiconbox').length) {
 var estep = estep-1;
  }
 
