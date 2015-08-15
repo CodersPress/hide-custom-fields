@@ -1,9 +1,9 @@
 <?php /* 
 Plugin Name: Show Only Per Category 
 Plugin URI: http://coderspress.com/forum/hide-custom-fields/
-Description: Shows only selected fields on Add Listing template, based on Category. PremiumPress 6.6.5 | 8.4
-Version: 2015.0806
-Updated: 6th August 2015 
+Description: Shows only selected fields on Add Listing template, based on Category. PremiumPress 6.6.5 | 8.3
+Version: 2015.08015
+Updated: 15th August 2015 
 Author: sMarty
 Author URI: http://coderspress.com
 WP_Requires: 3.8.1
@@ -273,6 +273,7 @@ var estep = estep+1;
 				} 
 				if (fieldNames.indexOf(val.field_label) < 0){
 				jQuery(".customfield").filter(":contains(" + FieldToTreat + ")").hide().find("input").attr('id','');
+                jQuery('form .btn-primary').attr('disabled', false);
 				}
             });
         }
