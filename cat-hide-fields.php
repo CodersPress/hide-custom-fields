@@ -2,7 +2,7 @@
 Plugin Name: Show Only Per Category 
 Plugin URI: http://coderspress.com/forum/hide-custom-fields/
 Description: Shows only selected fields on Add Listing template, based on Category. PremiumPress 6.6.5 | 8.3
-Version: 2015.08015
+Version: 2015.0815
 Updated: 15th August 2015 
 Author: sMarty
 Author URI: http://coderspress.com
