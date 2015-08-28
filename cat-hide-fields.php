@@ -1,13 +1,13 @@
 <?php /* 
 Plugin Name: Show Only Per Category 
 Plugin URI: http://coderspress.com/forum/hide-custom-fields/
-Description: Shows only selected fields on Add Listing template, based on Category. PremiumPress 6.6.5 | 8.3
-Version: 2015.0815
-Updated: 15th August 2015 
+Description: Shows only selected fields on Add Listing template, based on Category. PremiumPress 6.6.5 | 8.4
+Version: 2015.0828
+Updated: 28th August 2015 
 Author: sMarty
 Author URI: http://coderspress.com
 WP_Requires: 3.8.1
-WP_Compatible: 4.2.4
+WP_Compatible: 4.3
 License: http://creativecommons.org/licenses/GPL/2.0
 */ 
 add_action( 'init', 'chf_plugin_updater' );
@@ -238,13 +238,18 @@ if ( is_user_logged_in() ) {
 jQuery(document).ready(function () {
 
 var estep = '<?php echo $step;?>';
+
  if (!jQuery('.uploadiconbox').length) {
 var estep = estep-1;
  }
  if (jQuery('.fileinput-button').length) {
 var estep = estep+1;
  }
+if (window.location.href.indexOf("?eid") > -1) {
+    var estep = estep+1;
+}
 
+alert(estep);
  var category = jQuery(".tcbox input:checked").val();
   if (category === undefined) {
             jQuery('.astep'+estep).removeAttr('href');
