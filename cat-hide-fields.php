@@ -249,7 +249,6 @@ if (window.location.href.indexOf("?eid") > -1) {
     var estep = estep+1;
 }
 
-alert(estep);
  var category = jQuery(".tcbox input:checked").val();
   if (category === undefined) {
             jQuery('.astep'+estep).removeAttr('href');
