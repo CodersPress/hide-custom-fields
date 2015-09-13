@@ -261,13 +261,12 @@ var estep = '<?php echo $step;?>';
             jQuery.each(db_conditions, function (i, val) {
                 var check_cat = val.category;
                 var FieldToTreat = val.field_label;
-				var FieldsToTreat = jQuery(FieldToTreat).text();
                 if (category == check_cat) {
-                    jQuery(".customfield").filter(":contains(" + FieldsToTreat + ")").show();
+                    jQuery(".customfield").filter(":contains(" + FieldToTreat + ")").show();
 					fieldNames += val.field_label;
 				} 
 				if (fieldNames.indexOf(val.field_label) < 0){
-				jQuery(".customfield").filter(":contains(" + FieldsToTreat + ")").hide().find("input, textarea").attr('id','');
+				jQuery(".customfield").filter(":contains(" + FieldToTreat + ")").hide().find("input, textarea").attr('id','');
                 jQuery('form .btn-primary').attr('disabled', false);
 				}
             });
