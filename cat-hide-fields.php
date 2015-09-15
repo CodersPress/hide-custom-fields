@@ -7,7 +7,7 @@ Updated: 15th September 2015
 Author: sMarty
 Author URI: http://coderspress.com
 WP_Requires: 3.8.1
-WP_Compatible: 4.3
+WP_Compatible: 4.3.0
 License: http://creativecommons.org/licenses/GPL/2.0
 */ 
 add_action( 'init', 'chf_plugin_updater' );
