@@ -1,9 +1,9 @@
 <?php /* 
 Plugin Name: Show Only Per Category 
 Plugin URI: http://coderspress.com/forum/hide-custom-fields/
-Description: Shows only selected fields on Add Listing template, based on Category. PremiumPress 6.6.5 | 8.4
-Version: 2015.0913
-Updated: 13th September 2015 
+Description: Shows only selected fields on Add Listing template, based on Category. PremiumPress 6.6.5 | 8.6
+Version: 2015.0915
+Updated: 15th September 2015 
 Author: sMarty
 Author URI: http://coderspress.com
 WP_Requires: 3.8.1
@@ -226,12 +226,24 @@ $("#cat").dropdownchecklist( { width: 220, maxDropHeight: 250, forceMultiple: tr
 </div>
 <?php } 
 add_action( 'wp_footer', 'hide_fields');
+
 function hide_fields(){
+
+$my_theme = wp_get_theme();
+$theme_version = $my_theme->get( 'Version' );
+
 if ( is_page() ) {
+
+if ( $theme_version <= "8.4" ) {
+
 if ( is_user_logged_in() ) {
  if (stripos($_SERVER['REQUEST_URI'],'eid=') !== false) {$step = '3';} else {$step = '4';}
+} else { $step = '5'; } 
+
 } else {
-	$step = '5';
+
+$step = '2'; 
+
 }
 ?>
 <script> 
@@ -251,7 +263,7 @@ var estep = '<?php echo $step;?>';
         jQuery('.astep'+estep).removeAttr('href');
          } else { jQuery('.astep'+estep).attr('href') } 
         if (jQuery('.astep'+estep).attr('href') === undefined) {
-            alert('Please Complete Category Selection');
+            alert('Please complete Category Selection');
         } else { <?php global $wpdb;
             $table_name = $wpdb->prefix."show_field_only";
             $sql = "SELECT * FROM ".$table_name." ";
