@@ -59,7 +59,7 @@ show_only_setup_defaults();
 function show_only_setup_defaults()
 {
     $option = array(
-        "show_only_alert_message" => "Please complete Category Selection"
+        "show_only_alert_message" => "Please Complete Category Selection"
     );
   foreach ( $option as $key => $value )
     {
