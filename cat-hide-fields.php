@@ -27,12 +27,50 @@ function chf_plugin_updater() {
 		new WP_CHF_UPDATER( $config );
 	}
 }
-add_action('admin_menu', 'show_only_create_menu'); function show_only_create_menu() { add_menu_page('SHOW Field Settings', 'Fields IF-Category', 'administrator', __FILE__, 'show_only_setup_page',plugins_url('/images/list.gif', __FILE__)); } register_activation_hook( __FILE__, 'dbtable_install' ); function dbtable_install() { global $wpdb; $table_name = $wpdb->prefix . "show_field_only"; $charset_collate = ''; if ( ! empty( $wpdb->charset ) ) { $charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}"; } if ( ! empty( $wpdb->collate ) ) { $charset_collate .= " COLLATE {$wpdb->collate}"; } $sql = "CREATE TABLE $table_name ( id mediumint(9) NOT NULL AUTO_INCREMENT, field_label text NOT NULL, category text NOT NULL, UNIQUE KEY id (id) ) $charset_collate;"; require_once( ABSPATH . 'wp-admin/includes/upgrade.php' ); dbDelta( $sql ); } register_deactivation_hook( __FILE__, 'dbtable_drop' ); 
-function dbtable_drop() { 
+add_action('admin_menu', 'show_only_create_menu'); 
+
+function show_only_create_menu() { 
+	add_menu_page('SHOW Field Settings', 'Fields IF-Category', 'administrator', __FILE__, 'show_only_setup_page',plugins_url('/images/list.gif', __FILE__)); 
+	add_action( 'admin_init', 'register_show_only_setup_settings' );
+} 
+
+function register_show_only_setup_settings() {
+   	register_setting("show-only-settings-group", "show_only_alert_message");
+}
+
+register_activation_hook( __FILE__, 'dbtable_install' ); 
+
+function dbtable_install() { 
 global $wpdb; 
-$table_name = $wpdb->prefix."show_field_only"; 
-//$wpdb->query("DROP TABLE IF EXISTS $table_name");
- } 
+$table_name = $wpdb->prefix . "show_field_only"; 
+$charset_collate = ''; 
+if ( ! empty( $wpdb->charset ) ) { 
+$charset_collate = "DEFAULT CHARACTER SET {$wpdb->charset}"; 
+} 
+if ( ! empty( $wpdb->collate ) ) { 
+$charset_collate .= " COLLATE {$wpdb->collate}"; 
+} 
+$sql = "CREATE TABLE $table_name ( id mediumint(9) NOT NULL AUTO_INCREMENT, field_label text NOT NULL, category text NOT NULL, UNIQUE KEY id (id) ) $charset_collate;"; 
+require_once( ABSPATH . 'wp-admin/includes/upgrade.php' ); dbDelta( $sql ); 
+
+show_only_setup_defaults();
+} 
+
+function show_only_setup_defaults()
+{
+    $option = array(
+        "show_only_alert_message" => "Please complete Category Selection"
+    );
+  foreach ( $option as $key => $value )
+    {
+       if (get_option($key) == NULL) {
+        update_option($key, $value);
+       }
+    }
+    return;
+}
+
+
 function show_only_setup_page() { ?>
 
 <script type="text/javascript" src="<?php echo plugins_url('/cat-hide-fields/js/jquery-ui.min.js');?>"></script>
@@ -110,6 +148,32 @@ function show_only_setup_page() { ?>
 <div class="wrap">
     <h2>Show Only Setup Page</h2>
     <hr />
+
+<?php
+if ($_REQUEST['settings-updated']=='true') {
+echo '<div id="message" class="updated fade"><p><strong>MESSAGE SAVED</strong></p></div>';
+}
+?>
+
+<form method="post" action="options.php">
+    <?php settings_fields("show-only-settings-group");?>
+    <?php do_settings_sections("show-only-settings-group");?>
+    <table class="widefat" style="width:500px;">
+
+<h3>Alert Message Settings</h3>
+                <p style="background:#2EA2CC;color:#fff;font-size:16px;">Appears when a users clicks Details before selecting a Category.</p>
+
+<tr>
+<td><input type="text" size="40" id="show_only_alert_message" name="show_only_alert_message" value="<?php echo get_option("show_only_alert_message");?>"/></td>
+<td><input type="submit" value="SET" /></td>
+</tr>
+
+  </table>
+</form>
+</div>
+<br />
+<hr>
+
     <h3>Show Field if Category</h3>
     <p>Assign field labels multiple times to different categories. Once a field label is assigned, it will not show on any other category. You must insure you assign to all desired categories, including child_of parent categories.</p>
     <table class="widefat" style="width:500px;">
@@ -263,7 +327,7 @@ var estep = '<?php echo $step;?>';
         jQuery('.astep'+estep).removeAttr('href');
          } else { jQuery('.astep'+estep).attr('href') } 
         if (jQuery('.astep'+estep).attr('href') === undefined) {
-            alert('Please complete Category Selection');
+            alert('<?php echo get_option("show_only_alert_message");?>');
         } else { <?php global $wpdb;
             $table_name = $wpdb->prefix."show_field_only";
             $sql = "SELECT * FROM ".$table_name." ";
