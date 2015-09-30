@@ -160,7 +160,7 @@ echo '<div id="message" class="updated fade"><p><strong>MESSAGE SAVED</strong></
     <?php do_settings_sections("show-only-settings-group");?>
     <table class="widefat" style="width:500px;">
 
-<h3>Alert Message Settings</h3>
+<h3>Alert Message Setting</h3>
                 <p style="background:#2EA2CC;color:#fff;font-size:16px;">Appears when a users clicks Details before selecting a Category.</p>
 
 <tr>
