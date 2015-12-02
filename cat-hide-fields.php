@@ -1,10 +1,10 @@
 <?php /* 
-Plugin Name: Show Only Per Category 
-Plugin URI: http://coderspress.com/forum/hide-custom-fields/
-Description: Shows only selected fields on Add Listing template, based on Category. PremiumPress 6.6.5 | 8.6
-Version: 2015.1004
-Updated: 4th October 2015 
-Author: sMarty
+Plugin Name: Hide Custom Fields Per Category 
+Plugin URI: http://coderspress.com/forums/forum/premiumpress-plugins/hide-custom-fields/
+Description: Shows only selected fields on Add Listing template, based on Category. PremiumPress 6.6.5 | 8.8
+Version: 2015.1202
+Updated: 2nd December 2015 
+Author: CodersPress
 Author URI: http://coderspress.com
 WP_Requires: 3.8.1
 WP_Compatible: 4.3.1
@@ -30,7 +30,7 @@ function chf_plugin_updater() {
 add_action('admin_menu', 'show_only_create_menu'); 
 
 function show_only_create_menu() { 
-	add_menu_page('SHOW Field Settings', 'Fields IF-Category', 'administrator', __FILE__, 'show_only_setup_page',plugins_url('/images/list.gif', __FILE__)); 
+	add_menu_page('SHOW Field Settings', 'Hide Per Category', 'administrator', __FILE__, 'show_only_setup_page',plugins_url('/images/list.gif', __FILE__)); 
 	add_action( 'admin_init', 'register_show_only_setup_settings' );
 } 
 
